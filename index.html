@@ -25,7 +25,7 @@ const C=[
 ["tsla","Tesla","TSLA","https://hugoztian.github.io/tsla-dashboard/",1],
 ["meta","Meta","META","https://hugoztian.github.io/meta-dashboard/",1],
 ["lmnd","Lemonade","LMND","https://hugoztian.github.io/lmnd-dashboard/",1],
-["brkb","Berkshire Hathaway","BRK.B","https://hugoztian.github.io/brkb-dashboard/",0]];
+["brkb","Berkshire Hathaway","BRK.B","https://hugoztian.github.io/brkb-dashboard/",1]];
 const sel=document.getElementById('sel'),wrap=document.getElementById('wrap'),op=document.getElementById('open');
 C.forEach(([id,n,t,u,live])=>{const o=document.createElement('option');o.value=id;o.textContent=`${t} — ${n}${live?'':' (coming soon)'}`;sel.appendChild(o)});
 function load(id){const c=C.find(x=>x[0]===id)||C[0];sel.value=c[0];localStorage.setItem('invdash',c[0]);
