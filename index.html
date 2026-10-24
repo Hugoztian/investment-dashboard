@@ -1,0 +1,39 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Investment Dashboard</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;height:100%;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#0f1117;color:#e6e8ee}
+header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:12px 18px;background:#161a23;border-bottom:1px solid #2a2f3c}
+h1{font-size:18px;margin:0 12px 0 0;font-weight:650}
+select{background:#0f1117;color:#e6e8ee;border:1px solid #3a4152;border-radius:8px;padding:8px 10px;font-size:15px;min-width:240px}
+a.btn{color:#9ec1ff;text-decoration:none;border:1px solid #3a4152;border-radius:8px;padding:7px 10px;font-size:14px}
+.tag{font-size:12px;color:#aab1c2;margin-left:auto}
+#wrap{height:calc(100% - 62px)}iframe{width:100%;height:100%;border:0;background:#fff}
+.msg{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:#aab1c2;text-align:center;padding:20px}
+@media(max-width:600px){header{padding:10px}h1{width:100%}select{flex:1;min-width:0}#wrap{height:calc(100% - 104px)}.tag{display:none}}
+</style></head><body>
+<header><h1>📊 Investment Dashboard</h1>
+<select id="sel" aria-label="Choose company"></select>
+<a id="open" class="btn" target="_blank" rel="noopener">Open in new tab ↗</a>
+<span class="tag">Hugo Tian · 8 dashboards</span></header>
+<div id="wrap"></div>
+<script>
+const C=[
+["mu","Micron","MU","https://hugoztian.github.io/mu-dashboard/",1],
+["goog","Alphabet","GOOG","https://hugoztian.github.io/goog-dashboard/",0],
+["nvda","Nvidia","NVDA","https://hugoztian.github.io/nvda-dashboard/",1],
+["spcx","SpaceX","SPCX","https://hugoztian.github.io/spcx-dashboard/",1],
+["tsla","Tesla","TSLA","https://hugoztian.github.io/tsla-dashboard/",1],
+["meta","Meta","META","https://hugoztian.github.io/meta-dashboard/",1],
+["lmnd","Lemonade","LMND","https://hugoztian.github.io/lmnd-dashboard/",1],
+["brkb","Berkshire Hathaway","BRK.B","https://hugoztian.github.io/brkb-dashboard/",0]];
+const sel=document.getElementById('sel'),wrap=document.getElementById('wrap'),op=document.getElementById('open');
+C.forEach(([id,n,t,u,live])=>{const o=document.createElement('option');o.value=id;o.textContent=`${t} — ${n}${live?'':' (coming soon)'}`;sel.appendChild(o)});
+function load(id){const c=C.find(x=>x[0]===id)||C[0];sel.value=c[0];localStorage.setItem('invdash',c[0]);
+history.replaceState(null,'','?c='+c[0]);op.href=c[3];
+if(!c[4]){op.style.display='none';wrap.innerHTML=`<div class="msg"><h2>${c[1]} (${c[2]})</h2><p>Dashboard coming soon.</p></div>`;return}
+op.style.display='';const f=document.createElement('iframe');f.src=c[3];f.title=c[1]+' dashboard';
+let ok=false;f.onload=()=>{ok=true};wrap.innerHTML='';wrap.appendChild(f);
+setTimeout(()=>{if(!ok)wrap.innerHTML=`<div class="msg"><p>This dashboard can't be embedded.</p><a class="btn" href="${c[3]}" target="_blank" rel="noopener">Open ${c[1]} dashboard ↗</a></div>`},8000)}
+sel.onchange=()=>load(sel.value);
+load((new URLSearchParams(location.search).get('c')||localStorage.getItem('invdash')||'mu').toLowerCase().replace('.',''));
+</script></body></html>
